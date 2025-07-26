@@ -12,9 +12,17 @@ app.use(express.json());
 
 // SQLite database connection
 const dbPath = process.env.DB_PATH || path.join(__dirname, 'identifier.sqlite'); // Use relative path for Render
+
+// Ensure the database directory exists
+const dbDir = path.dirname(dbPath);
+if (!require('fs').existsSync(dbDir)) {
+  require('fs').mkdirSync(dbDir, { recursive: true });
+}
 const db = new sqlite3.Database(dbPath, (err) => {
   if (err) {
     console.error('Error opening database:', err.message);
+    console.error('Database path:', dbPath);
+    console.error('Current directory:', __dirname);
   } else {
     console.log('Connected to SQLite database:', dbPath);
   }
