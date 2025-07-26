@@ -11,7 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 // SQLite database connection
-const dbPath = '/Users/test/Desktop/backbone/identifier.sqlite';
+const dbPath = process.env.DB_PATH || path.join(__dirname, 'identifier.sqlite'); // Use relative path for Render
 const db = new sqlite3.Database(dbPath, (err) => {
   if (err) {
     console.error('Error opening database:', err.message);
